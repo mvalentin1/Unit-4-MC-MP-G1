@@ -1,0 +1,9 @@
+[06:16:33] DASHBOARD connected, subscribed to ['factory/line3/temperature', 'factory/line3/status']
+[06:16:34] DASHBOARD factory/line3/status: online
+[06:16:34] DASHBOARD factory/line3/temperature: 93.5
+[06:16:35] DASHBOARD factory/line3/temperature: 93.2
+[06:16:36] DASHBOARD factory/line3/temperature: 62.0
+[06:16:37] DASHBOARD factory/line3/temperature: 63.0
+[06:16:38] DASHBOARD factory/line3/temperature: 89.2
+[06:16:39] DASHBOARD factory/line3/temperature: 85.8
+[06:16:40] DASHBOARD factory/line3/temperature: 83.4

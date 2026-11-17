@@ -1,0 +1,46 @@
+=== Part B: LPWAN link budget + battery life ===
+Model: PL(d) = 91.5 + 10*n*log10(d/1 km), n = 3.5  ->  PL(8 km) = 123.1 dB
+LoRa SF12 airtime for 12 B payload (+13 B LoRaWAN overhead): 1.483 s
+
+Assigned comparison (steps 11-13)
+Technology     Tx dBm Sens dBm  MCL dB  PL@8km  Margin >=10dB?  mAh/cyc  mAh/yr Life yr >=5yr?  Infra / fees
+NB-IoT             23     -129   152.0   123.1    28.9     yes   0.1630    2857     5.3    yes  carrier, per-device plan
+LTE-M (CE-B)       23     -125   148.0   123.1    24.9     yes   0.2203    3859     4.0     NO  carrier, per-device plan
+LoRaWAN SF12       14     -137   151.0   123.1    27.9     yes   0.0231     406    27.1    yes  private gateway, none
+
+Including 5G RedCap (Task 5)
+Technology     Tx dBm Sens dBm  MCL dB  PL@8km  Margin >=10dB?  mAh/cyc  mAh/yr Life yr >=5yr?  Infra / fees
+NB-IoT             23     -129   152.0   123.1    28.9     yes   0.1630    2857     5.3    yes  carrier, per-device plan
+LTE-M (CE-B)       23     -125   148.0   123.1    24.9     yes   0.2203    3859     4.0     NO  carrier, per-device plan
+LoRaWAN SF12       14     -137   151.0   123.1    27.9     yes   0.0231     406    27.1    yes  private gateway, none
+5G RedCap          23      -96   119.0   123.1    -4.1      NO   0.1844    3231     4.7     NO  carrier, per-device plan
+(battery: 19000 mAh x 85% usable, 190 mAh/yr self-discharge; 17520 reports/yr)
+
+LoRaWAN load check: duty cycle per device = 0.082% (limit 1 % in EU868); pure-ALOHA offered load G = 0.165 -> worst-case collision prob if ALL 200 use SF12 on one channel ~ 28% (ADR, multiple channels and gateways cut this sharply)
+Geometry: 25 km^2 = 5 x 5 km; corner-to-corner = 7.1 km, so 8 km covers the worst case from a corner gateway
+
+Task 6 - sensitivity to path-loss exponent n (margin in dB at 8 km; negative = link fails)
+    n   PL dB         NB-IoT   LTE-M (CE-B)   LoRaWAN SF12      5G RedCap
+  2.5   114.1           37.9           33.9           36.9            4.9
+  3.0   118.6           33.4           29.4           32.4            0.4
+  3.5   123.1           28.9           24.9           27.9           -4.1
+  4.0   127.6           24.4           20.4           23.4           -8.6
+  4.5   132.1           19.9           15.9           18.9          -13.1
+  5.0   136.7           15.3           11.3           14.3          -17.7
+Break-even exponent (margin = 0): NB-IoT n=6.70, LTE-M (CE-B) n=6.26, LoRaWAN SF12 n=6.59, 5G RedCap n=3.05
+Even n=4 (dense clutter) leaves 20+ dB on NB-IoT/LTE-M/LoRaWAN, so the RANKING of the three is insensitive to n;
+only RedCap is sensitive: its link closes at all only for n < 3.05 (and never with the 10 dB design margin). Battery life does not depend on n in this model, so the
+choice is driven by infrastructure/fees, not by propagation uncertainty.
+
+Task 4 - fleet-tracked shipping container (ocean crossing)
+  nearest tower    10 km: PL =  126.5 dB vs MCLs NB-IoT 152 (ok), LTE-M (CE-B) 148 (ok), LoRaWAN SF12 151 (ok), 5G RedCap 119 (FAIL)
+  nearest tower   100 km: PL =  161.5 dB vs MCLs NB-IoT 152 (FAIL), LTE-M (CE-B) 148 (FAIL), LoRaWAN SF12 151 (FAIL), 5G RedCap 119 (FAIL)
+  nearest tower  1000 km: PL =  196.5 dB vs MCLs NB-IoT 152 (FAIL), LTE-M (CE-B) 148 (FAIL), LoRaWAN SF12 151 (FAIL), 5G RedCap 119 (FAIL)
+  A single-distance budget cannot justify a choice here: (1) the question is not 'is the margin positive at one
+  distance' but 'is any terrestrial tower within reach at all' - mid-ocean the nearest one is hundreds of km away and
+  beyond the radio horizon, so every terrestrial option fails regardless of MCL; (2) the distance, the serving carrier and
+  the roaming agreement change continuously along the route (truck, rail, port, ship); (3) mobility/handover and roaming
+  are binary capabilities that a dB figure cannot express; (4) the ocean leg needs a different link budget altogether
+  (satellite/NTN: ~500-2,000 km LEO slant range, Doppler, long delay). Hence the unit's answer: LTE-M/RedCap inland + NTN at sea.
+
+RECOMMENDATION: LoRaWAN SF12 with 1-2 owned gateways. Margin 27.9 dB at 8 km, est. life 27 yr (real life is capped by cell shelf life ~10-15 yr), no recurring fees. NB-IoT/LTE-M close the link on paper but need a carrier network that is not there and would add per-device fees across 200 units; LTE-M is also the worst on battery (4.0 yr, below the 5-yr target).

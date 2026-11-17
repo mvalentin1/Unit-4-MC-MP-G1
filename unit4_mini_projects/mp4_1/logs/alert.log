@@ -1,0 +1,3 @@
+[06:16:33] ALERT-SVC connected, subscribed to factory/+/temperature (threshold 90.0)
+[06:16:34] ALERT factory/line3/temperature = 93.5 exceeds 90.0
+[06:16:35] ALERT factory/line3/temperature = 93.2 exceeds 90.0

@@ -1,0 +1,25 @@
+[broker 06:16:32] listening on 0.0.0.0:18831
+[broker 06:16:33] CONNECT 'dashboard' keepalive=30s will=no
+[broker 06:16:33] SUBSCRIBE 'dashboard' ['factory/line3/temperature', 'factory/line3/status']
+[broker 06:16:33] CONNECT 'alert-service' keepalive=30s will=no
+[broker 06:16:33] SUBSCRIBE 'alert-service' ['factory/+/temperature']
+[broker 06:16:34] CONNECT 'line3-temp-sensor' keepalive=10s will=yes -> factory/line3/status
+[broker 06:16:34] PUBLISH 'line3-temp-sensor' factory/line3/status qos=1 retain=1 payload=b'online'
+[broker 06:16:34] PUBLISH 'line3-temp-sensor' factory/line3/temperature qos=1 retain=1 payload=b'93.5'
+[broker 06:16:35] PUBLISH 'line3-temp-sensor' factory/line3/temperature qos=1 retain=1 payload=b'93.2'
+[broker 06:16:36] PUBLISH 'line3-temp-sensor' factory/line3/temperature qos=1 retain=1 payload=b'62.0'
+[broker 06:16:37] PUBLISH 'line3-temp-sensor' factory/line3/temperature qos=1 retain=1 payload=b'63.0'
+[broker 06:16:38] PUBLISH 'line3-temp-sensor' factory/line3/temperature qos=1 retain=1 payload=b'89.2'
+[broker 06:16:39] PUBLISH 'line3-temp-sensor' factory/line3/temperature qos=1 retain=1 payload=b'85.8'
+[broker 06:16:40] PUBLISH 'line3-temp-sensor' factory/line3/temperature qos=1 retain=1 payload=b'83.4'
+[broker 06:16:41] DISCONNECT 'dashboard' (clean) - will NOT be published
+[broker 06:16:41] PUBLISH 'line3-temp-sensor' factory/line3/temperature qos=1 retain=1 payload=b'70.8'
+[broker 06:16:42] CONNECT 'dashboard-late' keepalive=30s will=no
+[broker 06:16:42] SUBSCRIBE 'dashboard-late' ['factory/line3/temperature', 'factory/line3/status']
+[broker 06:16:42]   -> delivering retained factory/line3/status to 'dashboard-late'
+[broker 06:16:42]   -> delivering retained factory/line3/temperature to 'dashboard-late'
+[broker 06:16:42] PUBLISH 'line3-temp-sensor' factory/line3/temperature qos=1 retain=1 payload=b'81.2'
+[broker 06:16:43] PUBLISH 'line3-temp-sensor' factory/line3/temperature qos=1 retain=1 payload=b'81.2'
+[broker 06:16:44] PUBLISH 'line3-temp-sensor' factory/line3/temperature qos=1 retain=1 payload=b'80.3'
+[broker 06:16:45] PUBLISH 'line3-temp-sensor' factory/line3/temperature qos=1 retain=1 payload=b'65.5'
+[broker 06:16:46] UNCLEAN DISCONNECT 'line3-temp-sensor' -> publishing LWT factory/line3/status = b'offline' (qos=1, retain=1)
